@@ -23,7 +23,7 @@ for frames in np.arange(1000,len(traj),50):
     f.write('ITEM: TIMESTEP\n')
     f.write('%d \n' % s.configuration.step)
     f.write('ITEM: NUMBER OF ATOMS \n')
-    f.write('%d \n' % (s.particles.num_rigid_bodies-100))
+    f.write('%d \n' % (s.particles.N-num_rigid_bodies))
     f.write('ITEM: BOX BOUNDS pp pp pp \n')
     f.write('%f %f \n' % (-s.configuration.box[0]/2, s.configuration.box[0]/2))
     f.write('%f %f \n' % (-s.configuration.box[1]/2, s.configuration.box[1]/2))
