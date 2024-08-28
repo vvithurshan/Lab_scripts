@@ -3,16 +3,17 @@ import gsd.hoomd
 import sys
 import os
 
+input_path = os.path.abspath(sys.argv[1])
+
 os.makedirs('dumpTraj', exist_ok = True)
 
 os.chdir('dumpTraj')
 
-traj = gsd.hoomd.open("/gscratch/vvarenth/Project/2024/PolyComb/simulations_to_run/3.linker_monomer/1.with_dna/3.100_4chains/prod.gsd")
+traj = gsd.hoomd.open(input_path)
 #traj = gsd.hoomd.open("../converted.gsd")
 timesteps = np.array([s.configuration.step for s in traj], dtype=np.int64)
 interval_tsteps = traj[1].configuration.step - traj[0].configuration.step
-num_rigid_bodies = input('How many rigid bodies are there in your system? ')
-
+num_rigid_bodies = int(input('How many rigid bodies are there in your system? '))
 for frames in np.arange(1000,len(traj),50):
     if (frames%50==0):
        print(frames)
@@ -39,4 +40,4 @@ for frames in np.arange(1000,len(traj),50):
 
 #os.system("rm -rf dump.traj.0")
 os.system("ls -v dump.traj.* | xargs cat > dump.lammpsdump && rm -rf dump.traj.*")
-os.system("cp dump.txt ../ && cd ../ && rm -rf dumpTraj")
+os.system("cp dump.lammpsdump ../ && cd ../ && rm -rf dumpTraj")
